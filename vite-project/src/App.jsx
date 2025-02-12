@@ -25,6 +25,15 @@ import { lazy, Suspense } from "react";
 import Formhandel from "./components/formhandel/Formhandel";
 import Postform from "./components/Crud/Formhandel";
 import UserCard from "./components/formhandel/UserCard";
+import Getuser from "./components/Crud/Getuser";
+import Updateproducts from "./components/Crud/Updateproducts";
+import Getusertwo from "./components/Crudtwo/Getuser";
+import Formhandeltwo from "./components/Crudtwo/Formhandel";
+import Login from "./components/auth/Login";
+import Dashbord from "./components/auth/Dashbord";
+import Register from "./components/auth/Register";
+import Forgotpassword from "./components/auth/Forgotpassword";
+import Updatepassword from "./components/auth/Updatepassword";
 
 const LoadingAbout = lazy(() =>
   import("./components/lazyloading/LoadingAbout")
@@ -80,10 +89,28 @@ function App() {
         </Routes>
       </Router> */}
 
+      {/* <Router>
+        <Routes>
+          <Route path="/" element={<Getuser />} />
+          <Route path="/addduser" element={<Postform />} />
+          <Route path="/updateproduct/:id" element={<Updateproducts />} />
+        </Routes>
+      </Router> */}
+
+      {/* <Router>
+        <Routes>
+          <Route path="/" element={<Getusertwo />} />
+          <Route path="/addduser" element={<Formhandeltwo />} />
+        </Routes>
+      </Router> */}
+
       <Router>
         <Routes>
-          <Route path="/" element={<UserCard />} />
-          <Route path="/addduser" element={<Postform />} />
+          <Route path="/" element={<Login />} />
+          <Route path="/register" element={<Register />} />
+          <Route path="/dashboard" element={<Dashbord />} />
+          <Route path="/forgotpassword" element={<Forgotpassword />} />
+          <Route path="/updatepassword" element={<Updatepassword />} />
         </Routes>
       </Router>
     </>

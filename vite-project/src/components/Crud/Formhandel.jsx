@@ -1,16 +1,18 @@
 import { useState } from "react";
 import { Container, TextField, Button, Typography } from "@mui/material";
-import { createUser } from "../../api";
+import { createProduct } from "../../api";
+import { useNavigate } from "react-router-dom";
 
 const Formhandel = () => {
   const [formData, setFormData] = useState({
     name: "",
-    email: "",
-    phone: "",
-    city: "",
-    photo: null,
+    category: "",
+    price: "",
+    description: "",
+    image: null,
   });
   const [errors, setErrors] = useState({});
+  const navigate = useNavigate();
 
   const handleChange = (e) => {
     const { name, value } = e.target;
@@ -19,17 +21,19 @@ const Formhandel = () => {
   };
 
   const handleFileChange = (e) => {
-    setFormData({ ...formData, photo: e.target.files[0] });
+    setFormData({ ...formData, image: e.target.files[0] });
   };
 
   const validate = () => {
     let tempErrors = {};
     if (!formData.name) tempErrors.name = "Name is required";
-    if (!formData.email) tempErrors.email = "Email is required";
-    else if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(formData.email))
-      tempErrors.email = "Invalid email format";
-    if (!formData.phone) tempErrors.phone = "Phone number is required";
-    if (!formData.photo) tempErrors.photo = "Photo is required";
+    if (!formData.category) tempErrors.category = "category is required";
+    // else if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(formData.email))
+    //   tempErrors.email = "Invalid email format";
+    if (!formData.price) tempErrors.price = "Price  is required";
+    if (!formData.description)
+      tempErrors.description = "Description is required";
+    if (!formData.image) tempErrors.image = "Image is required";
 
     setErrors(tempErrors);
     return Object.keys(tempErrors).length === 0;
@@ -42,9 +46,11 @@ const Formhandel = () => {
     Object.keys(formData).forEach((key) => {
       data.append(key, formData[key]);
     });
-    createUser(data)
+    createProduct(data)
       .then((data) => {
-        console.log(data);
+        if (data.message) {
+          navigate("/");
+        }
       })
       .catch((error) => alert(error));
   };
@@ -53,7 +59,7 @@ const Formhandel = () => {
     <div>
       <Container maxWidth="sm">
         <Typography variant="h4" gutterBottom>
-          User Form
+          Product Form
         </Typography>
         <form onSubmit={handleSubmit}>
           <TextField
@@ -69,34 +75,34 @@ const Formhandel = () => {
           <TextField
             fullWidth
             margin="normal"
-            label="Email"
-            name="email"
-            type="email"
-            value={formData.email}
+            label="Category"
+            name="category"
+            type="category"
+            value={formData.category}
             onChange={handleChange}
-            error={!!errors.email}
-            helperText={errors.email}
+            error={!!errors.category}
+            helperText={errors.category}
           />
           <TextField
             fullWidth
             margin="normal"
-            label="Phone"
-            name="phone"
+            label="Price"
+            name="price"
             type="tel"
-            value={formData.phone}
+            value={formData.price}
             onChange={handleChange}
-            error={!!errors.phone}
-            helperText={errors.phone}
+            error={!!errors.price}
+            helperText={errors.price}
           />
           <TextField
             fullWidth
             margin="normal"
-            label="City"
-            name="city"
-            value={formData.city}
+            label="Description"
+            name="description"
+            value={formData.description}
             onChange={handleChange}
-            error={!!errors.city}
-            helperText={errors.city}
+            error={!!errors.description}
+            helperText={errors.description}
           />
           <input
             type="file"
